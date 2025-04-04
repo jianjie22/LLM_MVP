@@ -7,7 +7,7 @@ import asyncio
 import os
 
 
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://mongodb:27017")
+MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")  # fallback for local test
 DB_NAME = "llm_db"
 
 client = AsyncIOMotorClient(MONGO_URI)
