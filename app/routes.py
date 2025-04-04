@@ -10,6 +10,11 @@ from beanie import PydanticObjectId
 from pydantic import Field
 from uuid import UUID, uuid4
 from beanie import Document
+from app.models import Prompt
+from app.services import handle_prompt
+from fastapi import Body, HTTPException
+from uuid import UUID
+
 
 router = APIRouter()
 
@@ -64,3 +69,20 @@ async def delete_conversation(id: UUID):
     if not conversation:
         raise HTTPException(status_code=404, detail="Conversation not found")
     await conversation.delete()
+    
+# app/routes.py
+
+from app.models import Prompt
+from app.services import handle_prompt
+from fastapi import Body, HTTPException
+from uuid import UUID
+
+@router.post("/queries", status_code=201)
+async def query_llm(conversation_id: UUID = Body(...), prompt: Prompt = Body(...)):
+    try:
+        reply = await handle_prompt(conversation_id, prompt)
+        return {"reply": reply}
+    except ValueError as ve:
+        raise HTTPException(status_code=404, detail=str(ve))
+    except Exception as e:
+        raise HTTPException(status_code=422, detail="Failed to query OpenAI: " + str(e))

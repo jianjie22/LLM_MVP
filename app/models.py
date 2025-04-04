@@ -7,10 +7,10 @@ from uuid import UUID, uuid4
 from datetime import datetime
 from pydantic import BaseModel
 from typing import Optional, Dict, Any
-
+from typing import Literal
 
 class Prompt(BaseModel):
-    role: str  # system, user, assistant, function
+    role: Literal["system", "user", "assistant", "function"]
     content: str
 
 class Conversation(Document):
