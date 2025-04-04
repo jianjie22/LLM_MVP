@@ -6,6 +6,7 @@ from app.routes import router
 from app.database import init_db
 from dotenv import load_dotenv
 import os
+from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()
 
@@ -21,5 +22,14 @@ async def lifespan(app: FastAPI):
     # You could clean up resources here if needed
 
 app = FastAPI(title="LLM_MVP", lifespan=lifespan)
+
+# ✅ Add this CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # or ["*"] during development
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(router)

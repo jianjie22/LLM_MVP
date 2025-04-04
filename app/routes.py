@@ -14,6 +14,7 @@ from app.models import Prompt
 from app.services import handle_prompt
 from fastapi import Body, HTTPException
 from uuid import UUID
+from app.models import LLMQuery
 
 
 router = APIRouter()
@@ -78,9 +79,9 @@ from fastapi import Body, HTTPException
 from uuid import UUID
 
 @router.post("/queries", status_code=201)
-async def query_llm(conversation_id: UUID = Body(...), prompt: Prompt = Body(...)):
+async def query_llm(data: LLMQuery):
     try:
-        reply = await handle_prompt(conversation_id, prompt)
+        reply = await handle_prompt(data.conversation_id, Prompt(role="user", content=data.prompt))
         return {"reply": reply}
     except ValueError as ve:
         raise HTTPException(status_code=404, detail=str(ve))

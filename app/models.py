@@ -28,4 +28,7 @@ class Conversation(Document):
 class ConversationPUT(BaseModel):
     name: Optional[str]
     params: Optional[Dict[str, Any]]
-    
+
+class LLMQuery(BaseModel):
+    conversation_id: UUID
+    prompt: str
