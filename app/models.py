@@ -2,33 +2,30 @@
 
 from beanie import Document
 from pydantic import BaseModel, Field
-from typing import List, Optional
+from typing import List, Dict, Any
+from uuid import UUID, uuid4
 from datetime import datetime
+from pydantic import BaseModel
+from typing import Optional, Dict, Any
+
 
 class Prompt(BaseModel):
-    role: str  # "user" or "assistant"
+    role: str  # system, user, assistant, function
     content: str
 
 class Conversation(Document):
+    id: UUID = Field(default_factory=uuid4, alias="_id")
     name: str
     model: str
-    prompts: List[Prompt]
+    params: Dict[str, Any] = Field(default_factory=dict)
+    prompts: List[Prompt] = Field(default_factory=list)
+    tokens: int = 0
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
     class Settings:
-        name = "conversations"  # This will be the MongoDB collection name
+        name = "conversations"
 
-'''
-example document:
-
-{
-  "name": "My Chat",
-  "model": "gpt-3.5-turbo",
-  "prompts": [
-    {"role": "user", "content": "Hi!"},
-    {"role": "assistant", "content": "Hello there!"}
-  ],
-  "created_at": "2025-04-04T11:28:00Z"
-}
-
-'''
+class ConversationPUT(BaseModel):
+    name: Optional[str]
+    params: Optional[Dict[str, Any]]
+    
