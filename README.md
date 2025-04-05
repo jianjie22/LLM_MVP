@@ -1,6 +1,7 @@
 # 🚀 LLM MVP - Backend (FastAPI)
 
 This is a backend MVP application that facilitates interaction with LLMs (OpenAI GPT-4o-mini). It supports:
+
 - ✅ CRUD operations on conversations
 - 💬 Sending prompts and getting responses from OpenAI
 - 🧠 Using previous conversation history as context
@@ -33,39 +34,49 @@ cd llm-mvp
 
 ### 🐳 Run with Docker (Recommended)
 
+Make sure your `.env` is configured like this:
+
+```env
+OPENAI_API_KEY=your_openai_key_here
+MONGO_URI=mongodb://mongodb:27017
+```
+
+> 🔁 `mongodb` here refers to the container name in `docker-compose.yml`.
+
+Then run:
+
 ```bash
 docker-compose up --build
 ```
 
-Visit the API at:  
-📜 Swagger UI: [http://localhost:8000/docs](http://localhost:8000/docs)
+Once running, access the app:
 
-MongoDB will be available at `mongodb://localhost:27017` (or from within the container: `mongodb://mongodb:27017`)
+- 📜 Swagger UI: [http://localhost:8000/docs](http://localhost:8000/docs)
+- 🧪 ReDoc UI: [http://localhost:8000/redoc](http://localhost:8000/redoc)
 
 ---
 
 ## 💡 Environment Variables
 
-Create a `.env` file at the root:
+Create a `.env` file in the root directory:
 
 ```
-OPENAI_API_KEY="sk-..."
-MONGO_URI="mongodb://localhost:27017"  # Optional override for local use
+OPENAI_API_KEY=your_openai_key_here
+MONGO_URI=mongodb://mongodb:27017
 ```
 
 ---
 
-## 🧪 Running Tests
+## 🧪 Running Tests (Local Only)
 
-Tests are written using `pytest`.
-
-> ⚠️ Tests require a local MongoDB instance to be running (outside Docker).
+> ⚠️ Tests currently require a **locally running MongoDB** (not Docker-based).
 
 ```bash
 pytest tests/
 ```
 
-Make sure the following are installed:
+Install test dependencies:
+
 ```bash
 pip install -r requirements.txt
 pip install pytest pytest-asyncio httpx asgi-lifespan
@@ -95,20 +106,21 @@ All requests and responses are stored **anonymized** for audit compliance.
 
 ## 🧠 Design Considerations
 
-- **Anonymization**: Prompt & response texts are sanitized before saving.
-- **Conversation context**: Query payloads to GPT include full history.
-- **OpenAPI Spec**: Strictly followed. Minor differences explained in comments/code.
-- **MongoDB Integration**: Beanie ODM used for async, document-based persistence.
+- **Anonymization**: Prompts and responses are stripped of user-identifiable data.
+- **Contextual Queries**: Conversation history is passed to the LLM for more coherent responses.
+- **Schema Adherence**: Implementation follows the provided OpenAPI spec.
+- **Async & Performant**: Beanie ODM ensures efficient async interaction with MongoDB.
 
 ---
 
-## 🧊 Optional: Frontend (Task 2)
+## ❌ Frontend (Task 2)
 
-Not included in this repo. If added, would be located in a separate `frontend/` folder.
+This repository **does not include** Task 2 (frontend).  
+Only Task 1 (backend API) is submitted for this assignment.
 
 ---
 
 ## 👨‍💻 Author
 
-- Chen Jian Jie
+- Chen Jian Jie  
 - GitHub: [@jianjie22](https://github.com/jianjie22)
