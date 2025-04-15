@@ -13,6 +13,17 @@ class Prompt(BaseModel):
     role: Literal["system", "user", "assistant", "function"]
     content: str
 
+class ConversationOut(BaseModel):
+    id: UUID
+    name: str
+    params: Dict[str, Any]
+    model: str
+    
+class ConversationCreate(BaseModel):
+    name: str
+    model: str
+    params: Dict[str, Any] = Field(default_factory=dict)
+    
 class Conversation(Document):
     id: UUID = Field(default_factory=uuid4, alias="_id")
     name: str
@@ -29,6 +40,6 @@ class ConversationPUT(BaseModel):
     name: Optional[str]
     params: Optional[Dict[str, Any]]
 
-class LLMQuery(BaseModel):
-    conversation_id: UUID
-    prompt: str
+class Prompt(BaseModel):
+    role: Literal["system", "user", "assistant", "function"]
+    content: str
