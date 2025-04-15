@@ -28,8 +28,8 @@ This is a backend MVP application that facilitates interaction with LLMs (OpenAI
 ### 📁 Clone the repo
 
 ```bash
-git clone https://github.com/jianjie22/LLM-MVP.git
-cd LLM-MVP
+git clone https://github.com/jianjie22/LLM_MVP.git
+cd LLM_MVP
 ```
 
 ### 🐳 Run with Docker (Recommended)
